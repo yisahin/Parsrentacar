@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title><%= car.brand %> <%= car.model %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-xl shadow-xl p-8 w-full max-w-xl mt-10">
+    <h1 class="text-3xl font-bold mb-4 text-gray-800"><%= car.brand %> <%= car.model %></h1>
+    <p class="text-gray-700"><strong>Fiyat:</strong> <%= car.price %>₺</p>
+    <p class="text-gray-700"><strong>Motor Hacmi:</strong> <%= car.engine_size || '-' %></p>
+    <p class="text-gray-700"><strong>Üretim Yılı:</strong> <%= car.year || '-' %></p>
+    <p class="text-gray-700"><strong>Durum:</strong> 
+      <span class="<%= car.status === 'müsait' ? 'text-green-600' : 'text-red-500' %>">
+        <%= car.status %>
+      </span>
+    </p>
+
+    <div class="mt-6">
+      <% if (car.status === 'müsait') { %>
+        <form action="/rentCar" method="POST">
+          <input type="hidden" name="carId" value="<%= car.id %>">
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Kirala</button>
+        </form>
+      <% } else if (car.rented_by === user.id) { %>
+        <form action="/returnCar" method="POST">
+          <input type="hidden" name="carId" value="<%= car.id %>">
+          <button type="submit" class="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition">İade Et</button>
+        </form>
+      <% } else { %>
+        <p class="text-sm text-gray-500 mt-2 text-center">Bu araç kiralanmış</p>
+      <% } %>
+    </div>
+
+    <div class="mt-4 text-center">
+      <a href="/cars" class="text-blue-600 hover:underline">← Araç Listesine Dön</a>
+    </div>
+  </div>
+</body>
+</html>

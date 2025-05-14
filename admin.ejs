@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Paneli</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">Admin Paneli</h1>
+      <div class="flex items-center gap-4">
+        <span class="text-gray-700 font-medium">Hoşgeldiniz, Admin!</span>
+        <a href="/logout" class="text-red-500 hover:underline">Çıkış Yap</a>
+      </div>
+    </div>
+
+    <!-- Araç Ekleme Formu -->
+    <div class="bg-white p-6 rounded-lg shadow mb-10">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Yeni Araç Ekle</h2>
+      <form action="/admin/addCar" method="POST" class="grid grid-cols-2 gap-4">
+        <input type="text" name="brand" placeholder="Marka" required class="border p-2 rounded" />
+        <input type="text" name="model" placeholder="Model" required class="border p-2 rounded" />
+        <input type="number" name="price" placeholder="Fiyat" required class="border p-2 rounded" />
+        <input type="text" name="engine_size" placeholder="Motor Hacmi" class="border p-2 rounded" />
+        <input type="number" name="year" placeholder="Yıl" class="border p-2 rounded" />
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded col-span-2 hover:bg-blue-700">
+          Araç Ekle
+        </button>
+      </form>
+    </div>
+
+    <!-- Araç Listesi -->
+    <div class="bg-white p-6 rounded-lg shadow mb-10">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Araçlar</h2>
+      <table class="w-full text-left border">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="p-2 border">Marka</th>
+            <th class="p-2 border">Model</th>
+            <th class="p-2 border">Fiyat</th>
+            <th class="p-2 border">Motor</th>
+            <th class="p-2 border">Yıl</th>
+            <th class="p-2 border">İşlemler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cars.forEach(car => { %>
+            <tr>
+              <td class="p-2 border"><%= car.brand %></td>
+              <td class="p-2 border"><%= car.model %></td>
+              <td class="p-2 border"><%= car.price %>₺</td>
+              <td class="p-2 border"><%= car.engine_size || '-' %></td>
+              <td class="p-2 border"><%= car.year || '-' %></td>
+              <td class="p-2 border flex gap-2">
+                <form action="/admin/editCar/<%= car.id %>" method="GET">
+                  <button class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Düzenle</button>
+                </form>
+                <form action="/admin/deleteCar" method="POST">
+                  <input type="hidden" name="carId" value="<%= car.id %>" />
+                  <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Sil</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <!-- Araç Listesi -->
+    <h2 class="text-xl font-bold mt-8">Kiralama Bilgileri</h2>
+    <table class="table-auto w-full mt-2 border">
+      <thead>
+        <tr>
+          <th class="border px-2">Araç</th>
+          <th class="border px-2">Kullanıcı</th>
+          <th class="border px-2">Başlangıç</th>
+          <th class="border px-2">Bitiş</th>
+          <th class="border px-2">Sürücü Yaşı</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% rentals.forEach(rental => { %>
+          <tr>
+            <td class="border px-2"><%= rental.car_name %></td>
+            <td class="border px-2"><%= rental.user_name %></td>
+            <td class="border px-2"><%= rental.start_date %></td>
+            <td class="border px-2"><%= rental.end_date %></td>
+            <td class="border px-2"><%= rental.driver_age %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <!-- Kullanıcı Listesi -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Kullanıcılar</h2>
+      <table class="w-full text-left border">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="p-2 border">İsim</th>
+            <th class="p-2 border">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td class="p-2 border"><%= user.name %></td>
+              <td class="p-2 border"><%= user.email %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Araç Düzenle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Araç Bilgilerini Düzenle</h1>
+    <form action="/admin/editCar/<%= car.id %>" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Marka</label>
+        <input type="text" name="brand" value="<%= car.brand %>" required
+               class="w-full border border-gray-300 p-2 rounded-lg">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Model</label>
+        <input type="text" name="model" value="<%= car.model %>" required
+               class="w-full border border-gray-300 p-2 rounded-lg">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Fiyat (₺)</label>
+        <input type="number" name="price" value="<%= car.price %>" required
+               class="w-full border border-gray-300 p-2 rounded-lg">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Motor Hacmi</label>
+        <input type="text" name="engine_size" value="<%= car.engine_size %>" 
+               class="w-full border border-gray-300 p-2 rounded-lg">
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Üretim Yılı</label>
+        <input type="number" name="year" value="<%= car.year %>" 
+               class="w-full border border-gray-300 p-2 rounded-lg">
+      </div>
+      <div>
+      <label class="block text-gray-700 font-medium mb-1">Durum</label>
+    <select name="status">
+      <option value="müsait">Müsait</option>
+      <option value="kiralandı">Kiralandı</option>
+      </select>
+    </div>
+    </select><br><br>
+      <div class="flex justify-between mt-6">
+        <a href="/admin" class="text-blue-600 hover:underline">← Geri Dön</a>
+        <button type="submit"
+                class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+          Kaydet
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

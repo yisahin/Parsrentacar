@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Araç Ekle</title>
+</head>
+<body>
+  <h1>Araç Ekle</h1>
+  <form action="/addCar" method="POST">
+    <label>Marka:</label>
+    <input type="text" name="brand" required><br><br>
+
+    <label>Model:</label>
+    <input type="text" name="model" required><br><br>
+
+    <label>Fiyat:</label>
+    <input type="number" name="price" required><br><br>
+
+    <label>Durum:</label>
+    <select name="status">
+      <option value="müsait">Müsait</option>
+      <option value="kiralandı">Kiralandı</option>
+    </select><br><br>
+
+    <label>Motor Hacmi:</label>
+    <input type="text" name="engine_size" placeholder="Örn: 1.6L"><br><br>
+
+    <label>Üretim Yılı:</label>
+    <input type="number" name="year" placeholder="Örn: 2020"><br><br>
+
+    <button type="submit">Ekle</button>
+  </form>
+</body>
+</html>

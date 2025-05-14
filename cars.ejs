@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Araç Listesi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<header class="bg-white shadow p-4">
+  <div class="container mx-auto px-4 flex justify-between items-center">
+    <!-- Sol: Logo ve Şirket İsmi -->
+    <div class="flex items-center space-x-3">
+      <img src="/images/logo.png" alt="Pars Oto Kiralama" class="w-12 h-12 rounded-full">
+      <span class="text-xl font-bold text-gray-800">Pars Oto Kiralama</span>
+    </div>
+
+    <!-- Sağ: Butonlar -->
+    <div class="space-x-4">
+      <a href="/about" class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Hakkımızda</a>
+      <a href="/login" class="text-sm text-gray-700 hover:text-blue-600">Giriş Yap</a>
+      <a href="/register" class="text-sm text-gray-700 hover:text-blue-600">Üye Ol</a>
+    </div>
+  </div>
+</header>
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">Araç Listesi</h1>
+      <div class="flex items-center gap-4">
+        <span class="text-gray-700 font-medium">Hoşgeldin, <%= user.name %>!</span>
+        <a href="/logout" class="text-red-500 hover:underline">Çıkış Yap</a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <% cars.forEach(car => { %>
+        <div class="bg-white rounded-xl shadow-md p-4 flex flex-col justify-between">
+          
+        <!-- 🚗 Araç Resmi -->
+        <img src="/images/<%= car.brand.toLowerCase().trim().replace(/\s/g, "_") %>_<%= car.model.toLowerCase().trim().replace(/\s/g, "_") %>.png"
+     onerror="this.onerror=null;this.src='/images/<%= car.brand.toLowerCase().trim().replace(/\s/g, "_") %>_<%= car.model.toLowerCase().trim().replace(/\s/g, "_") %>.jpg';"
+        alt="<%= car.brand %> <%= car.model %>"
+        class="w-full h-40 object-cover rounded-md mb-4">
+        <% 
+  let name = car.brand.toLowerCase().replace(/\s/g, "_") + "_" + car.model.toLowerCase().replace(/\s/g, "_");
+  console.log("Resim yolu:", "/images/" + name + ".png");
+%>
+
+          <!-- Araç Bilgileri -->
+          <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">
+              <a href="/cars/<%= car.id %>" class="hover:underline hover:text-blue-600 transition">
+                <%= car.brand %> <%= car.model %>
+              </a>
+            </h2>
+            <p class="text-gray-600">Fiyat: <span class="font-semibold"><%= car.price %>₺</span></p>
+            <p class="text-gray-600">Motor Hacmi: <%= car.engine_size || '-' %></p>
+            <p class="text-gray-600">Üretim Yılı: <%= car.year || '-' %></p>
+            <p class="text-sm mt-2 font-medium text-gray-700">Durum: 
+              <span class="<%= car.status === 'müsait' ? 'text-green-600' : 'text-red-500' %>">
+                <%= car.status %>
+              </span>
+            </p>
+          </div>
+
+          <!-- Kirala/İade Et -->
+          <div class="mt-4">
+            <% if (car.status === 'müsait') { %>
+              <form action="/rent/<%= car.id %>" method="GET">
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Kirala</button>
+              </form>
+            <% } else if (car.rented_by === user.id) { %>
+              <form action="/returnCar" method="POST">
+                <input type="hidden" name="carId" value="<%= car.id %>">
+                <button type="submit" class="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition">İade Et</button>
+              </form>
+            <% } else { %>
+              <p class="text-sm text-gray-500 text-center">Kiralanmış</p>
+            <% } %>
+          </div>
+
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+</html>

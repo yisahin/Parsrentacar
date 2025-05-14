@@ -1,0 +1,44 @@
+<!-- views/rent_form.ejs -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Araç Kirala</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+  <div class="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Araç Kiralama Formu</h1>
+    <form action="/rent/<%= car.id %>" method="POST" class="space-y-4">
+      <input type="hidden" name="carId" value="<%= car.id %>">
+
+      <div>
+        <label class="block font-medium text-gray-700">Alış Tarihi</label>
+        <input type="date" name="start_date" required class="w-full p-2 border rounded">
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700">İade Tarihi</label>
+        <input type="date" name="end_date" required class="w-full p-2 border rounded">
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700">Sürücü Yaşı</label>
+        <input type="number" name="driver_age" min="21" required class="w-full p-2 border rounded">
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+        Kiralamayı Tamamla
+      </button>
+    </form>
+  </div>
+  <script>
+    // Bugünün tarihini YYYY-MM-DD formatında al
+    const today = new Date().toISOString().split('T')[0];
+  
+    // inputlara min özelliği olarak bugünün tarihini ver
+    document.querySelector('input[name="start_date"]').setAttribute('min', today);
+    document.querySelector('input[name="end_date"]').setAttribute('min', today);
+  </script>
+</body>
+</html>
